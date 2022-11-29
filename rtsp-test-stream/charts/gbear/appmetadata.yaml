@@ -6,3 +6,9 @@ icon: https://get.greatbear.io/pub/images/rtsp-test-stream/logo.svg
 singleton: true
 # Array of application configuration options
 # See openapi.yaml/components/schemas/ApplicationParameter
+
+configuration:
+  - name: OUTPUT_RTSP
+    title: Output RTSP URL
+    value: "rtsp://rtsp-simple-server:8554/mystream"
+    type: String

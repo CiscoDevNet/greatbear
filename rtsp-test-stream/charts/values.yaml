@@ -1,4 +1,13 @@
 replicaCount: 1
 
-imagePullSecrets:
-  - name: gbear-harbor-pull
+image:
+  # The default value for the repository and tag will change when published
+  # to different environments. This will happen WITHOUT a change of the chart
+  # version. The only official source for the entire chart is github.
+  repository: repo.greatbear.io/<your-tenant-id>/rtsp-test-stream
+  pullPolicy: Always
+  # Overrides the image tag will default to chart appVersion if not set.
+  tag: "0.0.1"
+
+config:
+  OUTPUT_RTSP: rtsp://rtsp-simple-server:8554/mystream

@@ -31,9 +31,9 @@ spec:
             - copy
             - -f
             - rtsp
-            - rtsp://rtsp-simple-server:8554/mystream
-          image: repo.greatbear.io/<your-tenant-id>/rtsp-device-stream:0.0.1
-          imagePullPolicy: Always
+            - {{ .Values.config.OUTPUT_RTSP }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: rtsp-device-stream
           resources: {}
       restartPolicy: Always
