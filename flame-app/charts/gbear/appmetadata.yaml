@@ -1,16 +1,20 @@
-displayName: bear-echo
+displayName: Flame
 description: Flame is a platform that enables developers to compose and deploy Federated Learning training workloads easily.
 icon: https://github.com/cisco-open/flame/raw/main/docs/images/logo.png
 configuration:
   - name: CONTROL_PLANE_API_SERVER_URL
-    title: The URL or IP address to connect to the API Server component in the Flame Control Plane
+    title: "Flame API Server URL or IP address"
+    key: config.CONTROL_PLANE_API_SERVER_URL
     type: String
   - name: CONTROL_PLANE_NOTIFIER_URL
-    title: The URL or IP address to connect to the Notifier component in the Flame Control Plane (Cloud Cluster)
+    title: "Flame Notifier URL or IP address"
+    key: config.CONTROL_PLANE_NOTIFIER_URL
     type: String
   - name: FLAME_TASK_ID
-    title: A Task ID is linked to a Job ID and is generated when a job has been started
+    title: "Flame Task ID"
+    key: config.FLAME_TASK_ID
     type: String
   - name: FLAME_TASK_KEY
-    title: A Task Key is an ID that the user can chose when deploying the flame app
+    title: "User defined Flame Task Key"
+    key: config.FLAME_TASK_KEY
     type: String
