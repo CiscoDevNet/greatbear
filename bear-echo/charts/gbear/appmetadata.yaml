@@ -1,4 +1,4 @@
-displayName: bear-echo
+displayName: Bear Echo
 description: A simple HTTP echo service, based on Python Flask.
 tags:
   - debug

@@ -60,14 +60,18 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "bear-echo.fullname" . }}
-  labels:
-    {{- include "bear-echo.labels" . | nindent 4 }}
+  labels: 
+      {{- include "bear-echo.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+{{- with .Values.ports }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  {{- range $key, $value := . }}
+    - name: {{ $key }}
+      port: {{ $value.port }}
+      nodePort: {{ tpl $value.nodePort $ }}
+      protocol: {{ default "TCP" $value.protocol }}
+  {{- end }}
+{{- end }}
   selector:
     {{- include "bear-echo.selectorLabels" . | nindent 4 }}

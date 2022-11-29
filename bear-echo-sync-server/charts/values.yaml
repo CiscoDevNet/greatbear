@@ -22,7 +22,14 @@ syncserver:
 
 fullnameOverride: ""
 service:
+  type: NodePort
   port: 11777
+  
+ports:
+  http:
+    port: 11777
+    protocol: TCP
+    nodePort: "{{ default 31777 (int .Values.config.ACCESS_PORT)}}"
 
 config:
   requestPath: "/"
@@ -30,11 +37,12 @@ config:
   # needs to be base64 encoded json. like `echo -n '{}' | base64`
   gbNodeIDs: "e30="
   appName: "bear-echo-runtime"
+  ACCESS_PORT: ""
 
 image:
-  repository: repo.greatbear.io/<your-tenant-id>/great-bear-bear-echo-runtime
+  repository: repo.greatbear.io/<your-tenant-id>/bear-echo
   pullPolicy: Always
-  tag: 0.0.1
+  tag: 0.0.4
 
 imagePullSecrets:
   - name: gbear-harbor-pull

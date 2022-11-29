@@ -20,7 +20,8 @@ import uuid
 
 HTTP_PORT: int = int(os.getenv('HTTP_PORT') or '11777')
 BASE_URL: str = os.getenv('BASE_URL') or '/'
-ECHO_TEXT: str = os.getenv('ECHO_TEXT') or 'Hello World'
+DEFAULT_ECHO_TEXT: str = os.getenv('ECHO_TEXT') or 'Hello World'
+ECHO_TEXT: str = DEFAULT_ECHO_TEXT
 
 SYNC_SERVER_HOST: str = os.getenv('SYNC_SERVER_HOST')
 SYNC_SERVER_PORT: str = os.getenv('SYNC_SERVER_PORT')
@@ -29,11 +30,16 @@ GB_NODE_IDS: str = os.getenv('GB_NODE_IDS') or '{}'
 APP_NAME: str = os.getenv('APP_NAME') or 'bear-echo-runtime'
 
 class EchoSyncer(SyncClient):
-    """extends the SyncClient and overrides the "onNewData" listener"""
+    """extends the SyncClient and overrides the "onNewData" and onRemoveContent listeners"""
     def onNewData(self, data):
         global ECHO_TEXT
         print(f'ECHO_TEXT updated from {ECHO_TEXT} to {data}')
         ECHO_TEXT = data
+
+    def onRemoveContent(self):
+        global ECHO_TEXT
+        print(f'ECHO_TEXT updated from {ECHO_TEXT} to {DEFAULT_ECHO_TEXT}')
+        ECHO_TEXT = DEFAULT_ECHO_TEXT
 
 app = Flask(__name__)
 

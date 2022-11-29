@@ -1,10 +1,6 @@
-displayName: bear-echo
+displayName: Bear Echo
 description: A simple HTTP echo service, based on Python Flask.
 icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.15.4/svgs/solid/tools.svg 
-labels:
-  test.io: "test label"
-architectures:
-  - amd64
 tags:
   - debug
   - sample

@@ -1,13 +1,9 @@
 displayName: Bear Echo (with Sync Server)
 description: Helm chart for Bear Echo with Sync Server
-
-icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.1.2/svgs/solid/volume-high.svg
-
-labels:
-   kind: EXAMPLE
-
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.15.4/svgs/solid/tools.svg 
 tags:
-   - sample
+  - debug
+  - sample
 
 configuration:
   - name: defaultEchoText
@@ -16,6 +12,11 @@ configuration:
     description: "Text to be Echo'd before Runtime Updates"
     value: "default"
     type: String
+
+  - name: ACCESS_PORT 
+    title: Access HTTP port (30000-32767)
+    value: 31777
+    type: NodePort
 
   - name: apiKey
     key: syncserver.config.apiKey

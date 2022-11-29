@@ -19,6 +19,7 @@ config:
         {"node1":"Display name 1 with \"quotes\" and 'quotes'","node2":"Display name 2 with \"quotes\" and 'quotes'"}
   ACCESS_PORT: |
         "31777" 
+        
 service:
   type: NodePort
   port: 11777

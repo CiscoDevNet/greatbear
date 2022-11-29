@@ -1,11 +1,11 @@
 apiVersion: v2
-name: bear-echo-runtime
-description: A Bear Echo (with Sync Server) example helm chart
+name: bear-echo
+description:  A simple HTTP echo service, based on Python Flask, with runtime App Control integration
 type: application
 version: 0.0.4
 appVersion: "0.0.4"
 
-icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.1.2/svgs/solid/volume-high.svg
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.15.4/svgs/solid/tools.svg 
 
 dependencies: 
   - name: sync-server
