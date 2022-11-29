@@ -2,7 +2,7 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: repo.greatbear.io/<your-tenant-id>/mqtt-sample-consumer
+  repository: repo.greatbear.io/<your-tenant-id>/mqtt-consumer
   tag: 0.0.1
   pullPolicy: IfNotPresent
 

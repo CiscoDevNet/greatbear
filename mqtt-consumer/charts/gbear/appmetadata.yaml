@@ -1,4 +1,4 @@
-displayName: MQTT Consumer
+displayName: MQTT Consumer Example
 description: A simple app for Great Bear that consumes MQTT messages
 
 singleton: true

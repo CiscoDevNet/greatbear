@@ -1,4 +1,4 @@
-displayName: MQTT Producer
+displayName: MQTT Producer Example
 description: A simple app for Great Bear that produces MQTT messages
 
 singleton: true

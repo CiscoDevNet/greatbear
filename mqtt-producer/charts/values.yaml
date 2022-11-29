@@ -2,7 +2,7 @@ replicaCount: 1
 strategyType: Recreate
 
 image:
-  repository: repo.greatbear.io/<your-tenant-id>/mqtt-sample-producer
+  repository: repo.greatbear.io/<your-tenant-id>/mqtt-producer
   tag: 0.0.1
   pullPolicy: IfNotPresent
 
