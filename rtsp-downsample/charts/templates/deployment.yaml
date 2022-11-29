@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: rtsp-downsample
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  name: rtsp-downsample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rtsp-downsample
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rtsp-downsample
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - args:
+            - -rtsp_transport
+            - tcp
+            - -i
+            - {{ .Values.config.INPUT_RTSP }}
+            - -r
+            - "{{ .Values.config.DOWNSAMPLE_FPS }}"
+            - -g
+            - "1"
+            - -b:v
+            - {{ .Values.config.TARGET_BIT_RATE }}
+            - -maxrate
+            - {{ .Values.config.MAXRATE }}
+            - -bufsize
+            - {{ .Values.config.BUFSIZE }}
+            - -rtsp_transport
+            - tcp
+            - -f
+            - rtsp
+            - {{ .Values.config.OUTPUT_RTSP }}
+          image: linuxserver/ffmpeg:latest
+          name: rtsp-downsample
+          resources: {}
+      restartPolicy: Always
+status: {}

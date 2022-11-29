@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: "0.0.1"
+description: A simple app for Great Bear that produces MQTT messages
+name: mqtt-producer
+version: 0.0.1
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.15.4/svgs/solid/tools.svg 

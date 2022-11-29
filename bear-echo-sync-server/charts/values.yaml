@@ -1,0 +1,40 @@
+syncserver:
+  fullnameOverride: "bear-echo-syncserver"
+  service:
+    port: 8010
+
+  config:
+    apiKey: ""
+    gbSiteID: ""
+    gbSiteName: ""
+    controlServerURL: ""
+
+  image:
+    repository: repo.greatbear.io/cisco/great-bear-sync-server
+    pullPolicy: Always
+    tag: 2.3.0
+
+  imagePullSecrets:
+    - name: gbear-harbor-pull
+
+
+# for bear-echo helm charts
+
+fullnameOverride: ""
+service:
+  port: 11777
+
+config:
+  requestPath: "/"
+  defaultEchoText: "hi"
+  # needs to be base64 encoded json. like `echo -n '{}' | base64`
+  gbNodeIDs: "e30="
+  appName: "bear-echo-runtime"
+
+image:
+  repository: repo.greatbear.io/<your-tenant-id>/great-bear-bear-echo-runtime
+  pullPolicy: Always
+  tag: 0.0.1
+
+imagePullSecrets:
+  - name: gbear-harbor-pull

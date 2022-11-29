@@ -1,0 +1,37 @@
+displayName: RabbitMQ Producer Example
+description: A simple application that produces RabbitMQ messages for Great Bear
+
+singleton: false
+
+icon: https://get.greatbear.io/pub/images/rabbitmq/logo-producer.png
+
+
+configuration:
+  - name: brokerName
+    key: gbConfig.brokerName
+    title: "Name of RabbitMQ Broker App"
+    description: "The 'App Name' or host of the Broker"
+    value: "broker-rabbitmq"
+    type: String
+
+  - name: defaultAdminUsername
+    key: gbConfig.username
+    title: "Admin Username"
+    description: "Username of the admin user"
+    value: "bugsbunny"
+    type: String
+
+  - name: defaultAdminPassword
+    key: gbConfig.password
+    title: "Admin Password"
+    description: "Password of the admin user"
+    value: "1234password5678"
+    type: Secret
+
+  - name: queue
+    key: gbConfig.queue
+    title: Name of queue to consume
+    title: "Queue"
+    description: "Name of the queue"
+    value: "default"
+    type: String

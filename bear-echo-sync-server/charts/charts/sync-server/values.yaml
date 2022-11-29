@@ -1,0 +1,19 @@
+config:
+  apiKey: ""
+  gbSiteName: ""
+  gbSiteID: ""
+  controlServerURL: ""
+
+image:
+  repository: repo.greatbear.io/cisco/great-bear-sync-server
+  pullPolicy: Always
+  tag: 2.3.0
+
+imagePullSecrets:
+  - name: gbear-harbor-pull
+
+fullnameOverride: "syncserver"
+
+service:
+  type: ClusterIP
+  port: 8090

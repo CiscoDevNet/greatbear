@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels: {{- include "app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels: {{- include "app.selector" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "app.selector" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          livenessProbe:
+            httpGet:
+             path: /healthz
+             port: {{ .Values.ports.http.port }}
+            initialDelaySeconds: 5
+            timeoutSeconds: 2
+            periodSeconds: 10
+            failureThreshold: 3
+          env:
+
+        {{- with .Values.config }}
+          {{- range $key, $value := . }}
+          - name: {{$key}}
+            # Some config parameters (GB_SITE_NAME, GB_NODE_NAMES)
+            # can contain both quotes "" and '', e.g.: {"node1": "User's home"}
+            # and the value itself should be quoted in order not to be parsed as object
+            # so it's required to put it as a text field to make both quotes processable
+            value: |
+                            {{$value -}}
+          {{- end }}
+        {{- end }}
+
+        {{- with .Values.ports }}
+          ports:
+          {{- range $key, $value := . }}
+            - name: {{ $key }}
+              containerPort: {{ $value.port }}
+              protocol: {{ default "TCP" $value.protocol }}
+          {{- end }}
+        {{- end }}
+        {{- with .Values.securityContext }}
+          securityContext:
+            {{ toYaml . | indent 12 | trim }}
+        {{- end }}
+        {{- with .Values.resources }}
+          resources:
+            {{ toYaml . | indent 12 | trim }}
+        {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}

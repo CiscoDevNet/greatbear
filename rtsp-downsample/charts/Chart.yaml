@@ -1,0 +1,5 @@
+apiVersion: v2
+name: rtsp-downsample
+description: An app that connects to an RTSP stream, downsamples to a desired FPS, and republished the downsampled RTSP stream 
+version: 0.0.1
+icon: https://get.greatbear.io/pub/images/rtsp-downsample/logo.svg

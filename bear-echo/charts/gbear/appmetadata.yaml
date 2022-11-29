@@ -1,0 +1,21 @@
+displayName: bear-echo
+description: A simple HTTP echo service, based on Python Flask.
+tags:
+  - debug
+  - sample
+# Defines whether the app can be deployed to the same site several times 
+singleton: true
+# Array of application configuration options
+# See openapi.yaml/components/schemas/ApplicationParameter
+configuration:
+  - name: ECHO_TEXT   
+    title: Message to say
+    description: The application will echo this text
+    value: A Hello from Great Bear.
+    key: config.ECHO_TEXT
+    type: String
+  - name: ACCESS_PORT 
+    title: Access HTTP port (30000-32767)
+    value: "31777"
+    key: config.ACCESS_PORT
+    type: NodePort

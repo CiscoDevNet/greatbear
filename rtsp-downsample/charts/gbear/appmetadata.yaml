@@ -1,0 +1,34 @@
+displayName: RTSP Downsample
+description: An app that connects to an RTSP stream, downsamples to a desired FPS, and republished the downsampled RTSP stream 
+icon: https://get.greatbear.io/pub/images/rtsp-downsample/logo.svg
+
+# Defines whether the app can be deployed to the same site several times 
+singleton: true
+# Array of application configuration options
+# See openapi.yaml/components/schemas/ApplicationParameter
+
+configuration:
+  - name: INPUT_RTSP
+    title: Input RTSP URL
+    value: "rtsp://rtsp-simple-server:8554/mystream"
+    type: String
+  - name: OUTPUT_RTSP
+    title: Output RTSP URL
+    value: "rtsp://rtsp-simple-server:8554/downsample"
+    type: String
+  - name: DOWNSAMPLE_FPS
+    title: Desired downsampled FPS
+    value: "2"
+    type: String
+  - name: BUFSIZE
+    title: Decoder buffer size
+    value: "5M"
+    type: String
+  - name: MAXRATE
+    title: Maximum tolerance
+    value: "2M"
+    type: String
+  - name: TARGET_BIT_RATE
+    title: Target bitrate
+    value: "2M"
+    type: String

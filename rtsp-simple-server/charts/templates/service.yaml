@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: rtsp-simple-server
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  name: rtsp-simple-server
+spec:
+  type: NodePort
+  ports:
+    - name: "8554"
+      port: 8554
+      targetPort: 8554
+      nodePort: 30554
+    - name: "1935"
+      port: 1935
+      targetPort: 1935
+      nodePort: 30935
+  selector:
+    app.kubernetes.io/name: rtsp-simple-server
+    app.kubernetes.io/instance: {{ .Release.Name }}
+status:
+  loadBalancer: {}

@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.name" . }}
+  labels: {{- include "app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels: {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- if eq .Values.config.MONITORING "on" }}
+            - name: PROMETHEUS_PORT
+              value: "{{ .Values.monitoring.port }}"
+            {{- end }}
+            - name: BASE_URL
+              value: "sample-app-sync-server"
+            - name: PORT
+              value: "8080"
+            - name: GB_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: GB_NODE_NAMES
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "GB_NODE_NAMES"
+            - name: GB_NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: GB_NODE_IDS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "GB_NODE_IDS"
+            - name: MONITORING
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "MONITORING"
+          {{- with .Values.config }}
+            {{- range $key, $value := . }}
+            - name: {{ $key }}
+              value: {{ $value | quote}}
+            {{- end }}
+          {{- end }}
+
+        {{- with .Values.ports }}
+          ports:
+          {{- if eq .Values.config.MONITORING "on" }}
+            - containerPort: {{ .Values.monitoring.port }}
+              name: prometheus
+              protocol: TCP
+          {{- end }}
+          {{- range $key, $value := . }}
+            - name: {{ $key }}
+              containerPort: {{ $value.port }}
+              protocol: {{ default "TCP" $value.protocol }}
+          {{- end }}
+        {{- end }}
+        {{- with .Values.securityContext }}
+          securityContext:
+            {{ toYaml . | indent 12 | trim }}
+        {{- end }}
+        {{- with .Values.resources }}
+          resources:
+            {{ toYaml . | indent 12 | trim }}
+        {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}

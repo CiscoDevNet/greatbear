@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  strategy:
+    type: {{ .Values.strategyType }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          livenessProbe:
+            exec:
+              command:
+              - cat
+              - /etc/hostname
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          env:
+            - name: RABBIT_HOST
+              value: {{ .Values.gbConfig.brokerName | quote }}
+            - name: RABBIT_PORT
+              value: {{ .Values.gbConfig.brokerPort | quote }}
+            - name: RABBIT_USERNAME
+              value: {{ .Values.gbConfig.username | quote }}
+            - name: RABBIT_PASSWORD
+              value: {{ .Values.gbConfig.password | quote }}
+            - name: RABBIT_QUEUE
+              value: {{ .Values.gbConfig.queue | quote }}
+        {{- with .Values.securityContext }}
+          securityContext:
+            {{ toYaml . | indent 12 | trim }}
+        {{- end }}
+          {{- with .Values.ports }}
+          ports:
+            {{- range $key, $value := . }}
+            - name: {{ $key }}
+              containerPort: {{ $value.port }}
+              protocol: {{ default "TCP" $value.protocol }}
+            {{- end }}
+          {{- end }}
+        {{- with .Values.resources }}
+          resources:
+            {{ toYaml . | indent 12 | trim }}
+        {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}

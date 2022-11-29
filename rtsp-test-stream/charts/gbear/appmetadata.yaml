@@ -1,0 +1,8 @@
+displayName: RTSP Test Stream
+description: A simple app that publishes an RTSP stream on a loop for testing purposes
+icon: https://get.greatbear.io/pub/images/rtsp-test-stream/logo.svg
+
+# Defines whether the app can be deployed to the same site several times 
+singleton: true
+# Array of application configuration options
+# See openapi.yaml/components/schemas/ApplicationParameter

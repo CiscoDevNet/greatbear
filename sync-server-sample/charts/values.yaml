@@ -1,0 +1,63 @@
+# sample-app/charts/values.yaml
+replicaCount: 1
+strategyType: Recreate
+
+config:
+  # Config parameters described in application metadata
+  # and their values will be put here by the GB-deployer
+  # Site name injected by platform
+  GB_SITE_NAME: ""
+  # Site ID injected by platform
+  GB_SITE_ID: ""
+  # Node name map injected by platform
+  GB_NODE_NAMES: ""
+  # Node ID map injected by platform
+  GB_NODE_IDS: ""
+  # Switch for turning monitoring off/on
+  MONITORING: ""
+  # API_KEY used for connecting to the edge services api
+  API_KEY: ""
+
+EDGE_SERVICES_API_URL: https://edge-services-api.greatbear.io
+
+syncServerImageRepository: repo.greatbear.io/cisco/great-bear-sync-server
+syncServerImagePullPolicy: Always
+syncServerImagetag: 2.3.0
+
+image:
+  repository: repo.greatbear.io/<your-tenant-id>/sample-app
+  pullPolicy: Always
+  tag: 0.0.1
+
+imagePullSecrets:
+  - name: gbear-harbor-pull
+
+nameOverride: ""
+fullnameOverride: "sample-app-sync-server"
+
+monitoring:
+  port: 9090
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    #cpu: 100m
+    memory: 128Mi
+  requests:
+    #cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

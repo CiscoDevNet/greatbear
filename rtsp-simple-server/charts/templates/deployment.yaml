@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: rtsp-simple-server
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  name: rtsp-simple-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rtsp-simple-server
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rtsp-simple-server
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - env:
+            - name: RTSP_PROTOCOLS
+              value: tcp
+          image: aler9/rtsp-simple-server:latest
+          name: rtsp-simple-server
+          ports:
+            - containerPort: 8554
+            - containerPort: 1935
+          resources: {}
+      restartPolicy: Always
+status: {}

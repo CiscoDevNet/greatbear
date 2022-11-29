@@ -1,0 +1,8 @@
+displayName: RTSP Simple Server
+description: A ready-to-use and zero-dependency server and proxy that allows users to publish, read and proxy live video and audio streams through various protocols. This is a packaged version of the RTSP Simple Server from https://github.com/aler9/rtsp-simple-server
+icon: https://get.greatbear.io/pub/images/rtsp-simple-server/logo_20221115.png
+
+# Defines whether the app can be deployed to the same site several times 
+singleton: true
+# Array of application configuration options
+# See openapi.yaml/components/schemas/ApplicationParameter

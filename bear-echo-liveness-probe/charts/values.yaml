@@ -1,0 +1,47 @@
+replicaCount: 1
+strategyType: Recreate
+
+image:
+  repository: repo.greatbear.io/<your-tenant-id>/bear-echo
+  tag: 0.0.2
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: gbear-harbor-pull
+
+config:
+  # Config parameters described in application metadata
+  # Their values will be injected here by the Great Bear deployer
+  #
+  GB_SITE_NAME: |
+    Site name with "quotes" and 'quotes'
+  GB_NODE_NAMES: |
+    {"node1":"Display name 1 with \"quotes\" and 'quotes'","node2":"Display name 2 with \"quotes\" and 'quotes'"}
+  ACCESS_PORT: |
+    "31777"
+service:
+  type: NodePort
+  port: 11777
+
+ports:
+  http:
+    port: 11777
+    protocol: TCP
+    nodePort: "{{ default 31777 (int .Values.config.ACCESS_PORT)}}"
+
+# ----
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+nodeSelector: {}
+
+affinity: {}
+
+ingress:
+  enabled: false
+  istioGateway: ""
+  servicePath: ""
+
+siteId: ""

@@ -1,0 +1,22 @@
+displayName: Sync Server Sample App
+description: Sample App using sync-server to conenct to App Control Service
+
+# Specify whether the application should be deployed once per great bear site (defaults to false if not explicitly defined)
+singleton: true
+
+# A path/URL of icon to use in the app store
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/code.svg
+
+# A list of configuration fields that are provided as run-time values of the Helm deployment. 
+configuration:
+  - name: API_KEY
+    title: Deployment token
+    description: Deployment token used to authenticate the application
+    key: application.token
+    type: Secret
+  - name: MONITORING
+    title: Monitoring
+    description: Enable monitoring. Make sure you have enabled observability for the site you're deploying beforehand.
+    key: application.monitoring
+    choices: ["on", "off"]
+    value: "off"     

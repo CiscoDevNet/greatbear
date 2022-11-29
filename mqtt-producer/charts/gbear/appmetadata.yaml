@@ -1,0 +1,21 @@
+displayName: MQTT Producer
+description: A simple app for Great Bear that produces MQTT messages
+
+singleton: true
+
+configuration:
+  - name: MESSAGE_TEXT
+    title: Message text
+    description: The application will echo this text
+    value: A Hello from Great Bear.
+    type: String
+  - name: MQTT_TOPIC
+    title: MQTT topic
+    description: The MQTT topic to publish messages to
+    value: test_topic
+    type: String
+  - name: MQTT_SERVICE_NAME
+    title: MQTT service
+    description: The MQTT broker to publish messages to
+    value: mqtt-mosquitto
+    type: String

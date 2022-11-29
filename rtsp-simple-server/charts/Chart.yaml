@@ -1,0 +1,5 @@
+apiVersion: v2
+name: rtsp-simple-server
+description: A ready-to-use and zero-dependency server and proxy that allows users to publish, read and proxy live video and audio streams through various protocols. This is a packaged version of (https://github.com/aler9/rtsp-simple-server)
+version: 0.0.1
+icon: https://get.greatbear.io/pub/images/rtsp-simple-server/logo_20221115.png

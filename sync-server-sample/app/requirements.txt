@@ -1,0 +1,7 @@
+numpy
+python-socketio
+python-engineio
+requests
+websocket-client
+wget
+prometheus-client

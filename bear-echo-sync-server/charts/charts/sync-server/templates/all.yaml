@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sync-server.fullname" . }}
+  labels:
+    {{- include "sync-server.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "sync-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "sync-server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: API_KEY
+              value: {{ .Values.config.apiKey | quote }}
+            - name: PORT_SYNC_SERVER
+              value: {{ .Values.service.port | quote }}
+            - name: GB_SITE_NAME
+              value: {{ .Values.config.gbSiteName | quote }}
+            - name: GB_SITE_ID
+              value: {{ .Values.config.gbSiteID | quote }}
+            - name: EDGE_SERVICES_API_URL
+              value: {{ .Values.config.controlServerURL | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - cat
+              - app.js
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "sync-server.fullname" . }}
+  labels:
+    {{- include "sync-server.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "sync-server.selectorLabels" . | nindent 4 }}

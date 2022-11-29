@@ -1,0 +1,5 @@
+apiVersion: v2
+name: rtsp-test-stream
+description: A simple RTSP stream that publishes an RTSP stream on a loop for testing apps
+version: 0.0.1
+icon: https://get.greatbear.io/pub/images/rtsp-test-stream/logo.svg

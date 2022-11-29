@@ -1,0 +1,30 @@
+replicaCount: 1
+strategyType: Recreate
+
+image:
+  repository: repo.greatbear.io/<your-tenant-id>/mqtt-producer
+  tag: 0.0.1
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: gbear-harbor-pull
+
+config:
+  MESSAGE_TEXT: |
+        ""
+  MQTT_TOPIC: |
+        ""
+  MQTT_SERVICE_NAME: |
+        "" 
+
+# ----
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+nodeSelector: {}
+
+affinity: {}
+
+siteId: ""

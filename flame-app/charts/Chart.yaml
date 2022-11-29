@@ -1,0 +1,7 @@
+apiVersion: v2
+appVersion: 0.0.1
+description: Flame is a platform that enables developers to compose and deploy Federated Learning training workloads easily.
+icon: https://github.com/cisco-open/flame/raw/main/docs/images/logo.png
+name: flame-app
+type: application
+version: 0.0.1

@@ -1,0 +1,15 @@
+apiVersion: v2
+name: bear-echo-runtime
+description: A Bear Echo (with Sync Server) example helm chart
+type: application
+version: 0.0.4
+appVersion: "0.0.4"
+
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.1.2/svgs/solid/volume-high.svg
+
+dependencies: 
+  - name: sync-server
+    version: 0.0.1
+    # alias needed to avoid issue with hyphenated key names in values.yaml
+    # https://github.com/helm/helm/issues/2192
+    alias: syncserver

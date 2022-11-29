@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: rtsp-device-stream
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  name: rtsp-device-stream
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rtsp-device-stream
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rtsp-device-stream
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: gbear-harbor-pull
+      containers:
+        - args:
+            - -re
+            - -stream_loop
+            - "-1"
+            - -i
+            - video.ts
+            - -c
+            - copy
+            - -f
+            - rtsp
+            - rtsp://rtsp-simple-server:8554/mystream
+          image: repo.greatbear.io/<your-tenant-id>/rtsp-device-stream:0.0.1
+          imagePullPolicy: Always
+          name: rtsp-device-stream
+          resources: {}
+      restartPolicy: Always
+status: {}
+
+

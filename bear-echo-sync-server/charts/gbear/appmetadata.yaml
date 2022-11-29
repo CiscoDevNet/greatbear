@@ -1,0 +1,47 @@
+displayName: Bear Echo (with Sync Server)
+description: Helm chart for Bear Echo with Sync Server
+
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.1.2/svgs/solid/volume-high.svg
+
+labels:
+   kind: EXAMPLE
+
+tags:
+   - sample
+
+configuration:
+  - name: defaultEchoText
+    key: config.defaultEchoText
+    title: "Default Echo Text"
+    description: "Text to be Echo'd before Runtime Updates"
+    value: "default"
+    type: String
+
+  - name: apiKey
+    key: syncserver.config.apiKey
+    title: "API Key (Deployment Token)"
+    description: "API Key generated from app-control dashboard"
+    type: Secret
+
+  - name: siteID
+    key: syncserver.config.gbSiteID
+    value: "{{ .GB_SITE_ID }}"
+    type: Runtime
+
+  - name: siteName
+    key: syncserver.config.gbSiteName
+    value: "{{ .GB_SITE_NAME }}"
+    type: Runtime
+
+  - name: controlServerURL
+    key: syncserver.config.controlServerURL
+    title: "Control Server URL"
+    description: "The URL of the Application Control Service"
+    value: "https://edge-services-api.greatbear.io" 
+    type: String
+
+  - name: nodeIDs
+    key: config.gbNodeIDs
+    value: "{{ .GB_NODE_IDS | b64enc }}"
+    # actually passed in as json
+    type: Runtime

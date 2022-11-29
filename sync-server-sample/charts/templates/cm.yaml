@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    app.kubernetes.io/instance: sample-app
+data:
+  GB_NODE_NAMES: |
+    {{ .Values.config.GB_NODE_NAMES }}
+  GB_NODE_IDS: |
+    {{ .Values.config.GB_NODE_IDS }}
+  GB_SITE_NAME: |
+    {{ .Values.config.GB_SITE_NAME }}
+  GB_SITE_ID: |
+    {{ .Values.config.GB_SITE_ID }}
+  EDGE_SERVICES_API_URL: "{{ .Values.EDGE_SERVICES_API_URL }}"
+  MONITORING: "{{ .Values.config.MONITORING }}"

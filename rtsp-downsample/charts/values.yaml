@@ -1,0 +1,9 @@
+replicaCount: 1
+
+config:
+  INPUT_RTSP: rtsp://rtsp-simple-server:8554/mystream
+  OUTPUT_RTSP: rtsp://rtsp-simple-server:8554/downsample
+  DOWNSAMPLE_FPS: "1"
+  BUFSIZE: 5M
+  MAXRATE: 2M
+  TARGET_BIT_RATE: 2M

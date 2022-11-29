@@ -1,0 +1,19 @@
+replicaCount: 1
+
+config:
+  CONTROL_PLANE_API_SERVER_URL: ""
+  CONTROL_PLANE_NOTIFIER_URL: ""
+  FLAME_TASK_ID: ""
+  FLAME_TASK_KEY: ""
+
+image:
+  repository: repo.greatbear.io/<your-tenant-id>/flame
+  pullPolicy: Always
+  tag: 0.0.1
+
+imagePullSecrets:
+  - name: gbear-harbor-pull
+
+nameOverride: ""
+fullnameOverride: "flame-app"
+

@@ -1,0 +1,26 @@
+displayName: Minimal AI App
+description: A minimal AI application running on Great Bear
+
+# Specify whether the application should be deployed once per great bear site (defaults to false if not explicitly defined)
+singleton: true
+
+# A path/URL of icon to use in the app store
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/code.svg
+
+# A list of configuration fields that are provided as run-time values of the Helm deployment. 
+configuration:
+  - name: RTSP_STREAM
+    title: The url of the RTSP stream
+    value: rtsp://heronab3.miniserver.com:8554/camera
+    key: config.RTSP_STREAM
+    type: String
+  - name: MQTT_BROKER
+    title: The host of the MQTT Broker
+    value: broker.hivemq.com
+    key: config.MQTT_BROKER
+    type: String
+  - name: MQTT_TOPIC
+    title: The topic for inferences
+    value: minimal-ai-topic
+    key: config.MQTT_TOPIC
+    type: String

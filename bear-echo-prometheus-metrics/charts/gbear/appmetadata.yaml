@@ -1,0 +1,28 @@
+displayName: bear-echo
+description: A simple HTTP echo service, based on Python Flask.
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/5.15.4/svgs/solid/tools.svg 
+labels:
+  test.io: "test label"
+architectures:
+  - amd64
+tags:
+  - debug
+  - sample
+# Defines whether the app can be deployed to the same site several times 
+singleton: true
+# Array of application configuration options
+# See openapi.yaml/components/schemas/ApplicationParameter
+configuration:
+  - name: ECHO_TEXT   
+    title: Message to say
+    description: The application will echo this text
+    value: A Hello from Great Bear.
+    type: String
+  - name: ACCESS_PORT 
+    title: Access HTTP port (30000-32767)
+    value: 31777
+    type: NodePort
+  - name: MONITORING
+    title: Enable monitoring. Make sure you have enabled observability for the site you're deploying beforehand.
+    value: "on"
+    choices: ["on", "off"]

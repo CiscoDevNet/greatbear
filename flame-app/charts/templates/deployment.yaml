@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          volumeMounts:
+            - mountPath: /flame/data
+              name: volume-flamelet
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          env:
+            - name: FLAME_TASK_ID
+              value: {{ .Values.config.FLAME_TASK_ID }}
+            - name: FLAME_TASK_KEY
+              value: {{ .Values.config.FLAME_TASK_KEY }}
+          command: ["/usr/bin/flamelet", "-a", "{{ .Values.config.CONTROL_PLANE_API_SERVER_URL }}", "-n", "{{ .Values.config.CONTROL_PLANE_NOTIFIER_URL }}", "--insecure"]
+      volumes:
+        - name: volume-flamelet
+          hostPath:
+            path: /home/vagrant/data
+      restartPolicy: Always
+status: {}

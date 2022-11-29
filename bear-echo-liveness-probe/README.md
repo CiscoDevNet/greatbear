@@ -1,6 +1,6 @@
 # Great Bear
 
-*Great Bear Sample Applications*
+*Great Bear Sample App - Bear Echo with Liveness Probe*
 
 ---
 
