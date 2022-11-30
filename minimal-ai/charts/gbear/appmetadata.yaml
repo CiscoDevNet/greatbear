@@ -11,7 +11,7 @@ icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/
 configuration:
   - name: RTSP_STREAM
     title: The url of the RTSP stream
-    value: rtsp://heronab3.miniserver.com:8554/camera
+    value: rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4
     key: config.RTSP_STREAM
     type: String
   - name: MQTT_BROKER

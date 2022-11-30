@@ -1,6 +1,6 @@
 # Great Bear
 
-*Great Bear Sample App - Simple AI App*
+*Great Bear Sample App - Minimal AI App*
 
 ---
 
