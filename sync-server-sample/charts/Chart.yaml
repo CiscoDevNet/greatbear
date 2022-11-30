@@ -5,17 +5,3 @@ type: application
 version: 0.0.1
 appVersion: "0.0.1"
 icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/code.svg
-
-annotations:
-  gbear.io/configuration: |
-    - name: API_KEY
-      title: API key used to authenticate the application
-      required: true
-      type: Secret
-    - name: MONITORING
-      title: Enable monitoring. Make sure you have enabled observability for the site you're deploying beforehand.
-      value: "off"
-      choices: [on, off]
-  gbear.io/singleton: "true"
-
-  gbear.io/title: Sample App

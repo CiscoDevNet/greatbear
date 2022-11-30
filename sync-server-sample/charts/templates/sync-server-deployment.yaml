@@ -28,7 +28,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.syncServerImageRepository }}:{{ .Values.syncServerImageTag | default .Chart.AppVersion }}"
+          image: "{{ .Values.syncServerImage.repository }}:{{ .Values.syncServerImage.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: API_KEY

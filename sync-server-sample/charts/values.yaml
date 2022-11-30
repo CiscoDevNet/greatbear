@@ -20,12 +20,13 @@ config:
 
 EDGE_SERVICES_API_URL: https://edge-services-api.greatbear.io
 
-syncServerImageRepository: repo.greatbear.io/cisco/great-bear-sync-server
-syncServerImagePullPolicy: Always
-syncServerImagetag: 2.3.0
+syncServerImage:
+  repository: repo.greatbear.io/cisco/great-bear-sync-server
+  pullPolicy: Always
+  tag: 2.3.0
 
 image:
-  repository: repo.greatbear.io/<your-tenant-id>/sample-app
+  repository: repo.greatbear.io/<your-tenant-id>/sync-server-sample
   pullPolicy: Always
   tag: 0.0.1
 
