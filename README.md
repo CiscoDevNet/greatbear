@@ -1,4 +1,4 @@
-# Great Bear
+# Great Bear Sample Applications
 
 *Great Bear Sample Applications*
 
