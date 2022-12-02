@@ -2,6 +2,8 @@
 
 *Great Bear Sample App - Bear Echo with Prometheus Metrics*
 
+These are sample files which complement the Great Bear documentation, found at [docs.greatbear.io](https://docs.greatbear.io)
+
 ---
 
 ## License
