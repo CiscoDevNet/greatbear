@@ -1,0 +1,53 @@
+replicaCount: 1
+strategyType: Recreate
+
+# Update repository before publishing:
+# repository: repo.greatbear.io/<your-tenant-id>/edge-frame-grabber-image-uploader
+#  
+image:
+  repository: harbor-gbear.dev.eticloud.io/demo/edge-frame-grabber-image-uploader
+  tag: 0.0.1 
+  pullPolicy: Always
+
+
+imagePullSecrets:
+- name: gbear-harbor-pull
+
+config:
+  CAMERA_NAME: "TEST"
+  RTSP_IP: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4"
+  OUTPUT_IMAGE_FORMAT: "PNG"
+  OUTPUT_SCALE: "640:360"
+  OUTPUT_FPS: "1"
+  AWS_S3_HOST: "https://s3.eu-west-1.amazonaws.com"
+  AWS_S3_ACCESS_KEY: "AKIAVRIAM5J7SF5FDCWS"
+  AWS_S3_SECRET_KEY: "<ask-for-this>"
+  AWS_S3_BUCKET: "eti-ea-pilot-shared-data-pipeline"
+  GB_SITE_NAME: "site"
+  MONITORING: "on"
+  ACCESS_PORT: "9001"
+  
+volume:
+  mountPath: /cache
+  name: cache-volume
+
+# ----
+
+nameOverride: ""
+
+fullnameOverride: ""
+
+nodeSelector: {}
+
+affinity: {}
+
+networkConfig:
+  http_proxy:
+  https_proxy:
+  no_proxy:
+
+ports:
+  metrics:
+    name: metrics
+    port: 9001
+    protocol: TCP

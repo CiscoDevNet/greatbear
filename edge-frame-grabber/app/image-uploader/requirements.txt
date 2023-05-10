@@ -1,0 +1,3 @@
+boto3==1.26.62
+moto==4.1.1
+prometheus_client==0.16.0

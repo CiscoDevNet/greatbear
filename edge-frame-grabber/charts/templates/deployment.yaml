@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: {{ include "app.fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  name: {{ include "app.fullname" . }}
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "app.fullname" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "app.fullname" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{ toYaml . | indent 8 | trim }}
+    {{- end }}
+      containers:
+        - image: linuxserver/ffmpeg:latest
+          name: edge-frame-grabber-image-grabber
+          args:
+            - -y
+            - -rtsp_transport
+            - tcp
+            - -i
+            - {{ .Values.config.RTSP_IP }}
+          {{- if eq .Values.config.OUTPUT_IMAGE_FORMAT "JPEG" }}
+            - -f
+            - image2
+          {{- else if eq .Values.config.OUTPUT_IMAGE_FORMAT "JPEG 2000" }}
+            - -c:v
+            - jpeg2000
+          {{- else if eq .Values.config.OUTPUT_IMAGE_FORMAT "PNG" }}
+            - -c:v
+            - png
+          {{- end }}
+            - -r
+            - "{{ .Values.config.OUTPUT_FPS }}"
+            - -vf 
+            - scale={{ .Values.config.OUTPUT_SCALE }}
+            - -strftime
+            - "1"
+          {{- if eq .Values.config.OUTPUT_IMAGE_FORMAT "JPEG 2000" }}
+            - "{{ .Values.volume.mountPath }}/{{ .Values.config.GB_SITE_NAME }}___{{ .Values.config.CAMERA_NAME }}___%Y-%m-%d_%H-%M-%S.jp2"
+          {{- else if eq .Values.config.OUTPUT_IMAGE_FORMAT "JPEG" }}
+            - "{{ .Values.volume.mountPath }}/{{ .Values.config.GB_SITE_NAME }}___{{ .Values.config.CAMERA_NAME }}___%Y-%m-%d_%H-%M-%S.jpg"
+          {{- else if eq .Values.config.OUTPUT_IMAGE_FORMAT "PNG" }}
+            - "{{ .Values.volume.mountPath }}/{{ .Values.config.GB_SITE_NAME }}___{{ .Values.config.CAMERA_NAME }}___%Y-%m-%d_%H-%M-%S.png"
+          {{- end }}
+          resources: {}
+          volumeMounts:
+          - mountPath: {{ .Values.volume.mountPath }}
+            name: {{ .Values.volume.name }}
+        - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: edge-frame-grabber-image-uploader
+          env:
+            - name: CAMERA_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "CAMERA_NAME"
+            - name: AWS_S3_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "AWS_S3_HOST"
+            - name: AWS_S3_ACCESS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "AWS_S3_ACCESS_KEY"
+            - name: AWS_S3_SECRET_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "AWS_S3_SECRET_KEY"
+            - name: AWS_S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "app.fullname" . }}
+                  key: "AWS_S3_BUCKET"
+            - name: CACHE_DIRECTORY
+              value: {{ .Values.volume.mountPath }}
+            - name: https_proxy
+              value: {{ index .Values.networkConfig "https_proxy" }}
+            - name: http_proxy
+              value: {{ index .Values.networkConfig "http_proxy" }}
+            - name: no_proxy
+              value: {{ index .Values.networkConfig "no_proxy" }}
+            - name: METRICS_PORT
+              value: "{{ .Values.ports.metrics.port }}"
+          resources: {}
+          volumeMounts:
+          - mountPath: {{ .Values.volume.mountPath }}
+            name: {{ .Values.volume.name }}
+          ports:
+            - name: {{ .Values.ports.metrics.name }}
+              containerPort: {{ .Values.ports.metrics.port }}
+              protocol: {{ .Values.ports.metrics.protocol }}
+      volumes:
+      - name: {{ .Values.volume.name }}
+        emptyDir:
+          sizeLimit: 500Mi
+      restartPolicy: Always
+status: {}

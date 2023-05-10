@@ -1,0 +1,66 @@
+displayName: Edge Frame Grabber 
+description: The Edge Frame Grabber app connects to an RTSP Stream of an IP camera at a user defined FPS, and writes the images to an S3 bucket.
+
+singleton: false
+
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/play.svg 
+
+configuration:
+  - name: CAMERA_NAME
+    key: config.CAMERA_NAME
+    title: Camera Name 
+    value: ""
+    type: String
+
+  - name: RTSP_IP
+    key: config.RTSP_IP
+    title: Camera RTSP stream link 
+    value: ""
+    type: String
+
+  - name: OUTPUT_IMAGE_FORMAT
+    key: config.OUTPUT_IMAGE_FORMAT
+    title: Output Image Format    
+    choices: ["JPEG 2000", "JPEG", "PNG"]
+
+  - name: OUTPUT_FPS
+    key: config.OUTPUT_FPS
+    title: FPS
+    value: "1.0"
+    type: String
+
+  - name: OUTPUT_SCALE
+    key: config.OUTPUT_SCALE
+    title: Image Size
+    value: 640:360
+    type: String
+
+  - name: AWS_S3_HOST
+    key: config.AWS_S3_HOST
+    title: S3 Host
+    value: ""
+    type: String
+
+  - name: AWS_S3_ACCESS_KEY
+    key: config.AWS_S3_ACCESS_KEY
+    title: S3 Access Key
+    value: ""
+    type: String
+
+  - name: AWS_S3_SECRET_KEY
+    key: config.AWS_S3_SECRET_KEY
+    title: S3 Secret Key
+    value: ""
+    type: Secret
+
+  - name: AWS_S3_BUCKET
+    key: config.AWS_S3_BUCKET
+    title: S3 Bucket Name
+    value: ""
+    type: String
+
+  - name: MONITORING
+    title: Enable monitoring. Make sure you have enabled observability for the site you're deploying beforehand.
+    value: "on"
+    choices: [ "on", "off" ]
+

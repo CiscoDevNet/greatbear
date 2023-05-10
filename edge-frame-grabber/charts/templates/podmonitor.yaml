@@ -1,0 +1,22 @@
+{{- if eq .Values.config.MONITORING "on" }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ include "app.fullname" . }}-prometheus-exporter
+  labels: {{- include "app.labels" . | nindent 4 }}
+spec:
+  podMetricsEndpoints:
+    - interval: 15s
+      port: {{ .Values.ports.metrics.name }}
+      path: /metrics
+  jobLabel: {{ template "app.fullname" . }}-prometheus-exporter
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "app.fullname" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+

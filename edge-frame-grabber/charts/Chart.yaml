@@ -1,0 +1,4 @@
+apiVersion: v2
+name: edge-frame-grabber 
+version: 0.0.1
+icon: https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/play.svg 
